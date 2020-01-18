@@ -1,0 +1,17 @@
+{% include 'issue/issue_detail.html' with issue=object%}
+{% block elimina_issue %}
+
+{% if user.is_superuser %}
+<form method="post">{% csrf_token %}
+    <p>Sei sicuro di voler eliminare la seguente problematica ?</p>
+    <input type="submit" value="Conferma">
+</form>
+<button><a href="{% url 'issue-detail' object.id %}">Indietro</a></button>
+{% endif %}
+{% endblock %}
+
+<script>
+    $(document).ready(function(){
+        $("html,body").scrollTop(55);
+    });
+</script>

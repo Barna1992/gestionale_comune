@@ -1,0 +1,36 @@
+{% extends 'issue/base.html' %}
+
+{% block content %}
+ <table class="table table-hover">
+  <tr style="border-bottom: solid 2px;">
+    <th>Pratica<a href="/issue/"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a></th>
+    <th>Assegnatario<a href="?assignee"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
+	<a href="?-assignee"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
+    <th>Priorità<a href="?priority"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
+	<a href="?-priority"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
+	<th {% if not user.is_superuser and new_issue %}class="blink"{% endif %}>Stato<a href="?state"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
+	<a href="?-state"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
+	<th>Data inserimento<a href="?date"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
+	<a href="?-date"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
+  	<th>Termine esecuzione<a href="?expired_date"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
+	<a href="?-expired_date"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
+  </tr>
+
+{% if issues_list %}
+	 {% for issue in issues_list %}
+		<tr {% if issue.state is 3 %}class="issue-resolved"{% endif %}>
+			<td><a href="/issue/{{ issue.id }}/">{{ issue.title }}</a></td>
+			<td><a href="/issue/{{ issue.id }}/">{{ issue.assignee }}</a></td>
+			<td><a href="/issue/{{ issue.id }}/">{{ issue.priority_verbose }}</a></td>
+			<td><a href="/issue/{{ issue.id }}/">{{ issue.state_verbose }}</a></td>
+			<td><a href="/issue/{{ issue.id }}/">{{ issue.date|date:"d-m-Y" }}</a></td>
+			<td><a href="/issue/{{ issue.id }}/">{{ issue.expired_date|date:"d-m-Y" }}</a></td>
+	    </tr>
+	 {% endfor %}
+
+{% else %}
+	<tr><p>Non c'è alcuna problematica attiva attulamente.</p></tr>
+{% endif %}
+</table>
+
+{% endblock %}

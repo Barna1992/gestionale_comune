@@ -1,0 +1,34 @@
+{% extends 'issue/base.html' %}
+
+{% block content %}
+<div class="row">
+    {% block elimina_issue %}
+    {% endblock %}
+    <div class="issue-detail-header">
+        <h1>{{ issue.title }}</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
+            <h4 class="title {% if issue.state is 3%} issue-resolved     {% endif %}">Descrizione del problema {% if issue.state is 3%}(RISOLTA){% endif %}</h4>
+            <p {% if issue.state is 3%} class="issue-resolved" {% endif %}>{{issue.description}}</p>
+        </div>
+        <div class="col-lg-4 issue_block">
+            <h4 class="title">Creato il:</h4>
+            <p>{{issue.date|date:"d-m-Y"}}</p>
+            <h4 class="title">Priorità:</h4>
+            <p>{{issue.priority_verbose}}</p>
+            <h4 class="title">Termine:</h4>
+            <p>{{issue.expired_date|date:"d-m-Y"}}</p>
+            <h4 class="title">Stato:</h4>
+            <p>{{ issue.state_verbose }}</p>
+            {% if user.is_superuser %}
+                    <button class="btn btn-secondary"><a href="{% url 'edit-issue' issue.id %}">Modifica</a></button>
+                    <button class="btn btn-secondary"><a href="{% url 'delete-issue' issue.id %}">Elimina</a></button>
+                    {% else %}
+                    <button class="btn btn-secondary"><a href="{% url 'edit-issue-state' issue.id %}">Modifica Stato</a></button>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

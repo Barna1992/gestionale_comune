@@ -1,0 +1,28 @@
+{% extends 'issue/base.html' %}
+{% load issue_tag %}
+
+{% block content %}
+    {% if create_issue%}
+    <div class="row">
+        <h1>Nuovo Incarico</h1>
+    </div>
+    {% endif %}
+    <div class="row">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field|addclass:"form-control" }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="save btn btn-primary">Salva</button>
+            <button class="btn btn-secondary" ><a href="{% url 'base' %}">Indietro</a></button>
+        </form>
+    </div>
+		<script>
+			$(function () {
+				$('#id_expired_date').datepicker();
+			});
+		</script>
+{% endblock %}
