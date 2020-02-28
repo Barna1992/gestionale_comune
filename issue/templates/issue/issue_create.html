@@ -1,5 +1,6 @@
 {% extends 'issue/base.html' %}
 {% load issue_tag %}
+{% load static %}
 
 {% block content %}
     {% if create_issue%}
@@ -11,10 +12,23 @@
         <form method="POST" action="">
             {% csrf_token %}
             {% for field in form %}
+            {% if field|is_checkbox %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            </div>
+            <div class="btn-group" data-toggle="buttons">
+            {% for checkbox in field %}
+                <label class="btn btn-primary button-checkbox">
+                {{ checkbox.tag }} {{ checkbox.choice_label }}
+                </label>
+            {% endfor %}
+            </div>
+            {% else %}
             <div class="form-group">
                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     {{ field|addclass:"form-control" }}
             </div>
+            {% endif %}
             {% endfor %}
             <button type="submit" class="save btn btn-primary">Salva</button>
             <button class="btn btn-secondary" ><a href="{% url 'base' %}">Indietro</a></button>
@@ -25,4 +39,5 @@
 				$('#id_expired_date').datepicker();
 			});
 		</script>
+        <script src="{% static 'issue/js/index.js' %}"></script>
 {% endblock %}
