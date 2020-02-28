@@ -20,7 +20,7 @@
 	 {% for issue in issues_list %}
 		<tr {% if issue.state is 3 %}class="issue-resolved"{% endif %}>
 			<td><a href="/issue/{{ issue.id }}/">{{ issue.title }}</a></td>
-			<td><a href="/issue/{{ issue.id }}/">{% for a in issue.assignee.all %}{{ a }},{% endfor %}</a></td>
+			<td><a href="/issue/{{ issue.id }}/">{% for a in issue.assignee.all %}{{ a }}{% if not forloop.last %}, &nbsp {% endif %}{% endfor %}</a></td>
 			<td><a href="/issue/{{ issue.id }}/">{{ issue.priority_verbose }}</a></td>
 			<td><a href="/issue/{{ issue.id }}/">{{ issue.state_verbose }}</a></td>
 			<td><a href="/issue/{{ issue.id }}/">{{ issue.date|date:"d-m-Y" }}</a></td>

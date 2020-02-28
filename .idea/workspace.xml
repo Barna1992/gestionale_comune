@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="23050c09-6da2-449f-a0a9-55f73bcc6dff" name="Default Changelist" comment="">
+    <list default="true" id="23050c09-6da2-449f-a0a9-55f73bcc6dff" name="Default Changelist" comment="modifiche a path">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/templates/issue/issue_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/issue/templates/issue/issue_list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,23 +101,31 @@
       <option name="project" value="LOCAL" />
       <updated>1582931482303</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="modifiche a path">
+      <created>1582931506770</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1582931506770</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Modifica nel path dei files e rifaccio le migrazioni da zero perché cambio il tipo di modello per la issue" />
     <MESSAGE value="Aggiungo tutti i files nei nuovi path" />
-    <option name="LAST_COMMIT_MESSAGE" value="Aggiungo tutti i files nei nuovi path" />
+    <MESSAGE value="modifiche a path" />
+    <option name="LAST_COMMIT_MESSAGE" value="modifiche a path" />
   </component>
   <component name="WindowStateProjectService">
     <state x="762" y="175" width="578" height="593" key="#xdebugger.evaluate" timestamp="1582667511831">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
     <state x="762" y="175" width="578" height="593" key="#xdebugger.evaluate/67.27.1299.741@67.27.1299.741" timestamp="1582667511831" />
-    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2" timestamp="1582931482210">
+    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2" timestamp="1582931525202">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2/67.27.1299.741@67.27.1299.741" timestamp="1582931482210" />
+    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2/67.27.1299.741@67.27.1299.741" timestamp="1582931525202" />
     <state width="1276" height="161" key="GridCell.Tab.0.bottom" timestamp="1582931417404">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
