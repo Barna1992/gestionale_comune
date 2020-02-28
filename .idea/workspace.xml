@@ -3,22 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="23050c09-6da2-449f-a0a9-55f73bcc6dff" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/issue/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/migrations/0002_auto_20191118_2230.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/migrations/0003_auto_20191123_2123.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/migrations/0004_auto_20191123_2319.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/migrations/0005_issue_expired_date.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/migrations/0006_auto_20200105_2244.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/issue/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/static/css/issue.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/static/img/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/static/js/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/templates/issue/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/issue/templates/issue/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/templates/issue/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/issue/templates/issue/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/templates/issue/issue_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/issue/templates/issue/issue_create.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/templates/issue/issue_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/issue/templates/issue/issue_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/issue/templatetags/issue_tag.py" beforeDir="false" afterPath="$PROJECT_DIR$/issue/templatetags/issue_tag.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,17 +86,37 @@
       <option name="presentableId" value="Default" />
       <updated>1574515760193</updated>
     </task>
+    <task id="LOCAL-00001" summary="Modifica nel path dei files e rifaccio le migrazioni da zero perché cambio il tipo di modello per la issue">
+      <created>1582931410681</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1582931410681</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Aggiungo tutti i files nei nuovi path">
+      <created>1582931482303</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1582931482303</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Modifica nel path dei files e rifaccio le migrazioni da zero perché cambio il tipo di modello per la issue" />
+    <MESSAGE value="Aggiungo tutti i files nei nuovi path" />
+    <option name="LAST_COMMIT_MESSAGE" value="Aggiungo tutti i files nei nuovi path" />
   </component>
   <component name="WindowStateProjectService">
     <state x="762" y="175" width="578" height="593" key="#xdebugger.evaluate" timestamp="1582667511831">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
     <state x="762" y="175" width="578" height="593" key="#xdebugger.evaluate/67.27.1299.741@67.27.1299.741" timestamp="1582667511831" />
-    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2" timestamp="1582931410121">
+    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2" timestamp="1582931482210">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2/67.27.1299.741@67.27.1299.741" timestamp="1582931410121" />
+    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2/67.27.1299.741@67.27.1299.741" timestamp="1582931482210" />
     <state width="1276" height="161" key="GridCell.Tab.0.bottom" timestamp="1582931417404">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
