@@ -29,7 +29,7 @@ RELEVANCE_CHOICES = (
 class Issue(models.Model):
 	title = models.CharField(max_length=200)
 	date = models.DateTimeField(auto_now=True)
-	assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assignee')
+	assignee = models.ManyToManyField(User)
 	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner', null=True, blank=True)
 	description = models.TextField()
 	state = models.IntegerField(choices=STATUS_CHOICES, default=1)
@@ -37,7 +37,7 @@ class Issue(models.Model):
 	expired_date = models.DateField(auto_now=False, null=True, blank=True)
 
 	def __str__(self):
-	   return '{}'.format(self.title)
+		return '{}'.format(self.title)
 
 	def get_absolute_url(self):
 		return reverse('issue-detail', kwargs={'pk': self.pk})

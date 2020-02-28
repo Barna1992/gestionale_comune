@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="23050c09-6da2-449f-a0a9-55f73bcc6dff" name="Default Changelist" comment="" />
+    <list default="true" id="23050c09-6da2-449f-a0a9-55f73bcc6dff" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/issue/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/migrations/0002_auto_20191118_2230.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/migrations/0003_auto_20191123_2123.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/migrations/0004_auto_20191123_2319.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/migrations/0005_issue_expired_date.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/migrations/0006_auto_20200105_2244.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/issue/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/static/css/issue.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/static/img/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/static/js/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/templates/issue/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/issue/templates/issue/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/templates/issue/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/issue/templates/issue/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/templates/issue/issue_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/issue/templates/issue/issue_create.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/templates/issue/issue_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/issue/templates/issue/issue_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/issue/templatetags/issue_tag.py" beforeDir="false" afterPath="$PROJECT_DIR$/issue/templatetags/issue_tag.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,7 +33,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1U1Ea2kgmFglMHukzGHF79UrmMB" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -23,6 +45,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/manage.py" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -82,66 +105,85 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="488" y="175" width="578" height="593" key="#xdebugger.evaluate" timestamp="1579348569450">
+    <state x="762" y="175" width="578" height="593" key="#xdebugger.evaluate" timestamp="1582667511831">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state x="488" y="175" width="578" height="593" key="#xdebugger.evaluate/67.27.1299.741@67.27.1299.741" timestamp="1579348569450" />
-    <state width="1256" height="161" key="GridCell.Tab.0.bottom" timestamp="1579361280083">
+    <state x="762" y="175" width="578" height="593" key="#xdebugger.evaluate/67.27.1299.741@67.27.1299.741" timestamp="1582667511831" />
+    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2" timestamp="1582458526125">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1256" height="161" key="GridCell.Tab.0.bottom/67.27.1299.741@67.27.1299.741" timestamp="1579361280083" />
-    <state width="1256" height="161" key="GridCell.Tab.0.center" timestamp="1579361280083">
+    <state x="320" y="27" width="782" height="741" key="CommitChangelistDialog2/67.27.1299.741@67.27.1299.741" timestamp="1582458526125" />
+    <state width="1276" height="217" key="GridCell.Tab.0.bottom" timestamp="1582670840087">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1256" height="161" key="GridCell.Tab.0.center/67.27.1299.741@67.27.1299.741" timestamp="1579361280083" />
-    <state width="1256" height="161" key="GridCell.Tab.0.left" timestamp="1579361280083">
+    <state width="1276" height="217" key="GridCell.Tab.0.bottom/67.27.1299.741@67.27.1299.741" timestamp="1582670840087" />
+    <state width="1276" height="217" key="GridCell.Tab.0.center" timestamp="1582670840087">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1256" height="161" key="GridCell.Tab.0.left/67.27.1299.741@67.27.1299.741" timestamp="1579361280083" />
-    <state width="1256" height="161" key="GridCell.Tab.0.right" timestamp="1579361280083">
+    <state width="1276" height="217" key="GridCell.Tab.0.center/67.27.1299.741@67.27.1299.741" timestamp="1582670840087" />
+    <state width="1276" height="217" key="GridCell.Tab.0.left" timestamp="1582670840086">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1256" height="161" key="GridCell.Tab.0.right/67.27.1299.741@67.27.1299.741" timestamp="1579361280083" />
-    <state width="1256" height="201" key="GridCell.Tab.1.bottom" timestamp="1579348590243">
+    <state width="1276" height="217" key="GridCell.Tab.0.left/67.27.1299.741@67.27.1299.741" timestamp="1582670840086" />
+    <state width="1276" height="217" key="GridCell.Tab.0.right" timestamp="1582670840087">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1256" height="201" key="GridCell.Tab.1.bottom/67.27.1299.741@67.27.1299.741" timestamp="1579348590243" />
-    <state width="1256" height="201" key="GridCell.Tab.1.center" timestamp="1579348590242">
+    <state width="1276" height="217" key="GridCell.Tab.0.right/67.27.1299.741@67.27.1299.741" timestamp="1582670840087" />
+    <state width="1276" height="217" key="GridCell.Tab.1.bottom" timestamp="1582670840088">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1256" height="201" key="GridCell.Tab.1.center/67.27.1299.741@67.27.1299.741" timestamp="1579348590242" />
-    <state width="1256" height="201" key="GridCell.Tab.1.left" timestamp="1579348590242">
+    <state width="1276" height="217" key="GridCell.Tab.1.bottom/67.27.1299.741@67.27.1299.741" timestamp="1582670840088" />
+    <state width="1276" height="217" key="GridCell.Tab.1.center" timestamp="1582670840088">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1256" height="201" key="GridCell.Tab.1.left/67.27.1299.741@67.27.1299.741" timestamp="1579348590242" />
-    <state width="1256" height="201" key="GridCell.Tab.1.right" timestamp="1579348590242">
+    <state width="1276" height="217" key="GridCell.Tab.1.center/67.27.1299.741@67.27.1299.741" timestamp="1582670840088" />
+    <state width="1276" height="217" key="GridCell.Tab.1.left" timestamp="1582670840087">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="1256" height="201" key="GridCell.Tab.1.right/67.27.1299.741@67.27.1299.741" timestamp="1579348590242" />
-    <state width="639" height="350" key="XDebugger.FullValuePopup" timestamp="1579347420913">
+    <state width="1276" height="217" key="GridCell.Tab.1.left/67.27.1299.741@67.27.1299.741" timestamp="1582670840087" />
+    <state width="1276" height="217" key="GridCell.Tab.1.right" timestamp="1582670840088">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state width="639" height="350" key="XDebugger.FullValuePopup/67.27.1299.741@67.27.1299.741" timestamp="1579347420913" />
-    <state x="372" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1579343375573">
+    <state width="1276" height="217" key="GridCell.Tab.1.right/67.27.1299.741@67.27.1299.741" timestamp="1582670840088" />
+    <state width="639" height="350" key="XDebugger.FullValuePopup" timestamp="1582459919782">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state x="372" y="224" key="com.intellij.ide.util.TipDialog/67.27.1299.741@67.27.1299.741" timestamp="1579343375573" />
-    <state x="363" y="127" width="707" height="538" key="find.popup" timestamp="1579361620889">
+    <state width="639" height="350" key="XDebugger.FullValuePopup/67.27.1299.741@67.27.1299.741" timestamp="1582459919782" />
+    <state x="372" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1582929798283">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state x="363" y="127" width="707" height="538" key="find.popup/67.27.1299.741@67.27.1299.741" timestamp="1579361620889" />
-    <state x="379" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1579361145476">
+    <state x="372" y="224" key="com.intellij.ide.util.TipDialog/67.27.1299.741@67.27.1299.741" timestamp="1582929798283" />
+    <state x="363" y="127" width="707" height="578" key="find.popup" timestamp="1582670353490">
       <screen x="67" y="27" width="1299" height="741" />
     </state>
-    <state x="379" y="89" width="672" height="678" key="search.everywhere.popup/67.27.1299.741@67.27.1299.741" timestamp="1579361145476" />
+    <state x="363" y="127" width="707" height="578" key="find.popup/67.27.1299.741@67.27.1299.741" timestamp="1582670353490" />
+    <state x="379" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1582930844242">
+      <screen x="67" y="27" width="1299" height="741" />
+    </state>
+    <state x="379" y="89" width="672" height="678" key="search.everywhere.popup/67.27.1299.741@67.27.1299.741" timestamp="1582930844242" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/issue/views.py</url>
-          <line>35</line>
-          <option name="timeStamp" value="10" />
+          <line>49</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/issue/forms.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/issue/views.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/issue/templatetags/issue_tag.py</url>
+          <line>8</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
