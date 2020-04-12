@@ -4,11 +4,12 @@ from django.views.generic.edit import FormView
 from issue.models import Issue
 from issue.forms import IssueForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 
 
 class IssueListView(LoginRequiredMixin, ListView):
     template_name = "issue_list.html"
-    model = Issue	
+    model = Issue
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -23,13 +24,14 @@ class IssueListView(LoginRequiredMixin, ListView):
                 context['issues_list'] = context['issues_list'].order_by(f)
             if '-{}'.format(f) in self.request.GET:
                 context['issues_list'] = context['issues_list'].order_by('-{}'.format(f))
+        context['all_user_number'] = User.objects.all().count()
         context['new_issue'] = context['issues_list'].filter(state=1).count()
         return context
 
 
 class IssueDetailView(LoginRequiredMixin, DetailView):
     template_name = "issue/issue_detail.html"
-    model = Issue	
+    model = Issue
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

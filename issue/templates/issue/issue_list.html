@@ -12,8 +12,8 @@
    <thead>
   <tr>
     <th>Pratica<a href="/issue/"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a></th>
-    <th>Assegnatario<a href="?assignee"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
-	<a href="?-assignee"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
+  {% if user.is_superuser %}<th>Assegnatario<a href="?assignee"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
+	<a href="?-assignee"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>{% endif %}
     <th>Priorità<a href="?priority"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
 	<a href="?-priority"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
 	<th {% if not user.is_superuser and new_issue %}class="blink"{% endif %}>Stato<a href="?state"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
@@ -28,12 +28,19 @@
 {% if issues_list %}
 	 {% for issue in issues_list %}
 		<tr {% if issue.state is 3 %}class="issue-resolved"{% endif %}>
-			<td><a href="/issue/{{ issue.id }}/">{{ issue.title }}</a></td>
-			<td><a href="/issue/{{ issue.id }}/">{% for a in issue.assignee.all %}{{ a }}{% if not forloop.last %}, &nbsp {% endif %}{% endfor %}</a></td>
-			<td><a href="/issue/{{ issue.id }}/">{{ issue.priority_verbose }}</a></td>
-			<td><a href="/issue/{{ issue.id }}/">{{ issue.state_verbose }}</a></td>
-			<td><a href="/issue/{{ issue.id }}/">{{ issue.date|date:"d-m-Y" }}</a></td>
-			<td><a href="/issue/{{ issue.id }}/">{{ issue.expired_date|date:"d-m-Y" }}</a></td>
+			<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.title }}</a></td>
+      {% if user.is_superuser %}
+      <td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">
+        {% if all_user_number == issue.assignee.all.count %}
+        Tutti
+        {% else %}
+        {% for a in issue.assignee.all %}{{ a }}{% if not forloop.last %}, &nbsp {% endif %}{% endfor %}</a></td>
+        {% endif %}
+      {% endif %}
+      <td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.priority_verbose }}</a></td>
+			<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.state_verbose }}</a></td>
+			<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.date|date:"d-m-Y" }}</a></td>
+			<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.expired_date|date:"d-m-Y" }}</a></td>
 	    </tr>
 	 {% endfor %}
 
