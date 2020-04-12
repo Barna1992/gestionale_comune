@@ -8,24 +8,24 @@
         <h1>{{ issue.title }}</h1>
     </div>
     <div class="row">
-        <div class="col-lg-8">
-            <h4 class="title {% if issue.state is 3%} issue-resolved     {% endif %}">Descrizione del problema {% if issue.state is 3%}(RISOLTA){% endif %}</h4>
+        <div class="col s8" style="margin-left: -20px;margin-right: 20px;background: #e3f2fd;border-radius: 15px;">
+            <h4 class="title {% if issue.state is 3%} issue-resolved     {% endif %}">Descrizione dell'incarico {% if issue.state is 3%}(RISOLTA){% endif %}</h4>
             <p {% if issue.state is 3%} class="issue-resolved" {% endif %}>{{issue.description}}</p>
         </div>
-        <div class="col-lg-4 issue_block">
-            <h4 class="title">Creato il:</h4>
+        <div class="col s4 issue_block">
+            <h5 class="title">Creato il:</h5>
             <p>{{issue.date|date:"d-m-Y"}}</p>
-            <h4 class="title">Priorità:</h4>
+            <h5 class="title">Priorità:</h5>
             <p>{{issue.priority_verbose}}</p>
-            <h4 class="title">Termine:</h4>
+            <h5 class="title">Termine:</h5>
             <p>{{issue.expired_date|date:"d-m-Y"}}</p>
-            <h4 class="title">Stato:</h4>
+            <h5 class="title">Stato:</h5>
             <p>{{ issue.state_verbose }}</p>
             {% if user.is_superuser %}
-                    <button class="btn btn-secondary"><a href="{% url 'edit-issue' issue.id %}">Modifica</a></button>
-                    <button class="btn btn-secondary"><a href="{% url 'delete-issue' issue.id %}">Elimina</a></button>
+                    <a href="{% url 'edit-issue' issue.id %}" class="waves-effect waves-light btn">Modifica</a>
+                    <a href="{% url 'delete-issue' issue.id %}" class="waves-effect waves-light btn">Elimina</a>
                     {% else %}
-                    <button class="btn btn-secondary"><a href="{% url 'edit-issue-state' issue.id %}">Modifica Stato</a></button>
+                    <a href="{% url 'edit-issue-state' issue.id %}" class="waves-effect waves-light btn">Modifica Stato</a>
             {% endif %}
         </div>
     </div>

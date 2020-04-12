@@ -1,12 +1,13 @@
-{% include 'issue/issue_detail.html' with issue=object%}
+{% extends 'issue/issue_detail.html' %}
 {% block elimina_issue %}
 
 {% if user.is_superuser %}
 <form method="post">{% csrf_token %}
-    <p>Sei sicuro di voler eliminare la seguente problematica ?</p>
-    <input type="submit" value="Conferma">
+    <p class="flow-text" style="margin-top:80px">Sei sicuro di voler eliminare la seguente problematica ?</p>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Conferma
+    </button>
+    <a href="{% url 'issue-detail' object.id %}" class="waves-effect waves-light btn">Indietro</a>
 </form>
-<button><a href="{% url 'issue-detail' object.id %}">Indietro</a></button>
 {% endif %}
 {% endblock %}
 

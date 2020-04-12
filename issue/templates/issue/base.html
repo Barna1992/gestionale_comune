@@ -10,34 +10,37 @@
 		<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
 		<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 		<script src='https://kit.fontawesome.com/a076d05399.js'></script>
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
-    </head>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{% static 'issue/js/index.js' %}"></script>
+
+    {% block script %}
+    {% endblock %}
+
+</head>
 	<body>
 	{% if not index %}
-		<nav class="navbar custom-navbar">
-			<div class="container">
-				<div style="width:100%">
-					<div class="col-sm-6">
-						<h1><a href="/issue/">Gestionale Comune di Domegge</a></h1>
-					</div>
-					<div class="col-sm-2">
-						<h4 style="margin-top: 40px;">{{ user.first_name }} {{ user.last_name }}</h4>
-					</div>
-					<div class="col-sm-2">
-						{% if user.is_superuser %}
-						<a class="btn btn-primary" role="button" href="{% url 'create-issue' %}" style="margin-top: 30px;">Nuova... <span class="glyphicon glyphicon-plus"> </span></a>
-						{% endif %}
-					</div>
-					<div class="col-sm-2">
-						{% if user.is_authenticated %}
-						<a class="btn btn-primary" role="button" href="{% url 'registration:logout' %}" style="margin-top: 30px;">Log Out <span class="glyphicon glyphicon-off"></span></a>
-						{% else %}
-						<a class="btn btn-primary" role="button" href="{% url 'registration:login' %}" style="margin-top: 30px;">Log In <span class="glyphicon glyphicon-play"></span></a>
-						{% endif %}
-					</div>
-				</div>
-			</div>
-		</nav>
+    <nav>
+      <div class="nav-wrapper  blue darken-4">
+        <a href="/issue/" class="brand-logo" style="padding-left: 10px;">Gestionale Comune di Domegge</a>
+        <ul class="right hide-on-med-and-down">
+          <li>{{ user.first_name }} {{ user.last_name }}</li>
+          {% if user.is_superuser %}
+          <li><a class="waves-effect waves-light btn" href="{% url 'create-issue' %}">Nuova... <span class="glyphicon glyphicon-plus"></a></li>
+          {% endif %}
+          {% if user.is_authenticated %}
+          <li><a class=" waves-effect waves-light btn" role="button" href="{% url 'registration:logout' %}">Log Out </a></li>
+          {% else %}
+          <li><a class="waves-effect waves-light btn" href="{% url 'registration:login' %}">Log in</a></li>
+          {% endif %}
+        </ul>
+      </div>
+  </nav>
+
 		{% endif %}
 		<div class="container">
 			<div class="content">

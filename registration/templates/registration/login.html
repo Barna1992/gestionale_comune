@@ -1,19 +1,19 @@
 {% extends "issue/base.html" %}
 {% block content %}
   <div class="container">
-      <div class="row justify-content-center align-items-center" style="height:80vh;">
-          <div class="col-auto border p-3">
+      <div class="row justify-content-center align-items-center" style="height:80vh; width:50%">
+          <div class="col-auto border p-3 login-mask" style="margin-top: 40px;">
               {% if form.errors %}
               <p class="bg-danger p-2">Per favore accedi con le tue credenziali.</p>
               {% endif %}{% if next %}
                   {% if user.is_authenticated %}
                   <p class="bg-warning p-1">Il tuo utente non ha l'accesso.</p>
                   {% else %}
-                  <p class="bg-secondary">Per favore autenticati per vedere questa pagina.</p>
+                  <p class=" center bg-secondary">Per favore autenticati per vedere questa pagina.</p>
                   {% endif %}
               {% endif %}<form method="post" action="{% url 'accounts:login' %}">
               {% csrf_token %}
-              <table>
+              <table style='margin-bottom: 10px'>
               <tr>
                   <td>{{ form.username.label_tag }} </td>
                   <td>{{ form.username }}</td>
@@ -22,7 +22,7 @@
                   <td>{{ form.password.label_tag }} </td>
                   <td>{{ form.password }}</td>
               </tr>
-              </table><input type="submit" value="login" />
+            </table><input type="submit" value="login" class='btn' />
               <input type="hidden" name="next" value="{{ next }}" />
               </form>{# Assumes you setup the password_reset view in your URLconf #}
               <p><a href="{% url 'accounts:password_reset' %}">Password dimenticata?</a></p>

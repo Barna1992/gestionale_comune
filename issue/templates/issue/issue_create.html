@@ -2,13 +2,16 @@
 {% load issue_tag %}
 {% load static %}
 
+{% block script %}
+{% endblock %}
+
 {% block content %}
     {% if create_issue%}
     <div class="row">
-        <h1>Nuovo Incarico</h1>
+        <h2>Nuovo Incarico</h2>
     </div>
     {% endif %}
-    <div class="row">
+    <div class="row" style='margin-top: 40px;'>
         <form method="POST" action="">
             {% csrf_token %}
             {% for field in form %}
@@ -30,14 +33,9 @@
             </div>
             {% endif %}
             {% endfor %}
-            <button type="submit" class="save btn btn-primary">Salva</button>
-            <button class="btn btn-secondary" ><a href="{% url 'base' %}">Indietro</a></button>
+            <button type="submit" class="save btn">Salva</button>
+            <a href="{% url 'base' %}" class="waves-effect waves-light btn">Indietro</a>
         </form>
     </div>
-		<script>
-			$(function () {
-				$('#id_expired_date').datepicker();
-			});
-		</script>
-        <script src="{% static 'issue/js/index.js' %}"></script>
+
 {% endblock %}

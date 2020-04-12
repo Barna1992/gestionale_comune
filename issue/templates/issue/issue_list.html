@@ -1,7 +1,15 @@
 {% extends 'issue/base.html' %}
+{% block script %}
+<style>
+.container {
+  width:95% !important;
+}
+</style>
+{% endblock %}
 
 {% block content %}
- <table class="table table-hover">
+ <table class="table table-hover" style='margin-top:40px; background-color: #E3F2FD;'>
+   <thead>
   <tr style="border-bottom: solid 2px;">
     <th>Pratica<a href="/issue/"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a></th>
     <th>Assegnatario<a href="?assignee"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
@@ -15,7 +23,8 @@
   	<th>Termine esecuzione<a href="?expired_date"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
 	<a href="?-expired_date"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
   </tr>
-
+</thead>
+<tbody>
 {% if issues_list %}
 	 {% for issue in issues_list %}
 		<tr {% if issue.state is 3 %}class="issue-resolved"{% endif %}>
@@ -31,6 +40,6 @@
 {% else %}
 	<tr><p>Non c'è alcuna problematica attiva attulamente.</p></tr>
 {% endif %}
+<tbody>
 </table>
-
 {% endblock %}
