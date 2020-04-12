@@ -120,3 +120,11 @@ label {
   color: #5F5F5F !important;
   margin-top: 10px;
 }
+
+th {
+  border-bottom: solid 2px black !important;
+}
+
+td a {
+  color: #0C0C0C;
+}

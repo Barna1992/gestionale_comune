@@ -25,7 +25,9 @@
                     <a href="{% url 'edit-issue' issue.id %}" class="waves-effect waves-light btn">Modifica</a>
                     <a href="{% url 'delete-issue' issue.id %}" class="waves-effect waves-light btn">Elimina</a>
                     {% else %}
+                    {% if issue.state != 3 %}
                     <a href="{% url 'edit-issue-state' issue.id %}" class="waves-effect waves-light btn">Modifica Stato</a>
+                    {% endif %}  
             {% endif %}
         </div>
     </div>
