@@ -1,5 +1,5 @@
 {% extends 'issue/base.html' %}
-
+{% load tz %}
 {% block content %}
 <div class="row">
     {% block elimina_issue %}
@@ -8,9 +8,22 @@
         <h1>{{ issue.title }}</h1>
     </div>
     <div class="row">
-        <div class="col s8" style="margin-left: -20px;margin-right: 20px;background: #e3f2fd;border-radius: 15px;">
-            <h4 class="title {% if issue.state is 3%} issue-resolved     {% endif %}">Descrizione dell'incarico {% if issue.state is 3%}(RISOLTA){% endif %}</h4>
-            <p {% if issue.state is 3%} class="issue-resolved" {% endif %}>{{issue.description}}</p>
+        <div class="col s8">
+            <div class='col' style="margin-left: -20px;margin-right: 20px;background: #e3f2fd;border-radius: 15px;">
+              <h4 class="title {% if issue.state is 3%} issue-resolved     {% endif %}">Descrizione dell'incarico {% if issue.state is 3%}(RISOLTA){% endif %}</h4>
+              <p {% if issue.state is 3%} class="issue-resolved" {% endif %}>{{issue.description}}</p>
+            </div>
+            <div class='col' style='margin-left:-20px'>
+              {% for comment in issue.comments.all %}
+              <p class='comment '>
+                <strong><span>il {{ comment.created_on|date:'d/m/Y' }} alle ore {{ comment.created_on| localtime | time:'H:i' }}, {{ comment.name }}  ha scritto:</span ><br/>
+              {{ comment.body }}</p>
+              {% endfor %}
+              <form method="POST" class="post-form">{% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit" class="save btn">Commenta</button>
+              </form>
+            </div>
         </div>
         <div class="col s4 issue_block">
             <h5 class="title">Creato il:</h5>
@@ -27,10 +40,11 @@
                     {% else %}
                     {% if issue.state != 3 %}
                     <a href="{% url 'edit-issue-state' issue.id %}" class="waves-effect waves-light btn">Modifica Stato</a>
-                    {% endif %}  
+                    {% endif %}
             {% endif %}
         </div>
     </div>
+
 
 </div>
 {% endblock %}

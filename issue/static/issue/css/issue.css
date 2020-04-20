@@ -128,3 +128,16 @@ th {
 td a {
   color: #0C0C0C;
 }
+
+.comment {
+  margin-top: 10px;
+  width: 80%;
+  border-radius: 15px;
+  border: 1px #0D47A1 solid;
+  padding: 15px;
+}
+
+.comment span {
+  text-decoration: underline;
+  font-weight: 600;
+}

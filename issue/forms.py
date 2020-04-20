@@ -1,6 +1,6 @@
 from django import forms
 from gestione_comune import settings
-from .models import Issue
+from .models import Issue, Comment
 from django.contrib.auth.models import User
 
 class IssueForm(forms.ModelForm):
@@ -35,3 +35,14 @@ class IssueForm(forms.ModelForm):
         else:
             cleaned_data['assignee'] = [User.objects.get(id=i) for i in user_id]
         return cleaned_data
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('body', 'post', 'name')
+        labels = {
+            'body': 'il mio commento',
+            'post': '',
+            'name': '',
+        }

@@ -1,11 +1,11 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, TemplateView, UpdateView, DeleteView
 from django.views.generic.edit import FormView
 from issue.models import Issue
-from issue.forms import IssueForm
+from issue.forms import IssueForm, CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-
+from django.views.generic.edit import FormMixin
 
 class IssueListView(LoginRequiredMixin, ListView):
     template_name = "issue_list.html"
@@ -29,15 +29,35 @@ class IssueListView(LoginRequiredMixin, ListView):
         return context
 
 
-class IssueDetailView(LoginRequiredMixin, DetailView):
+class IssueDetailView(LoginRequiredMixin, FormMixin, DetailView):
     template_name = "issue/issue_detail.html"
     model = Issue
+    form_class = CommentForm
+
+    def get_success_url(self):
+        return reverse('issue-detail', kwargs={'pk': self.object.id})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
         return context
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = CommentForm(initial={'post': self.object, 'name': self.request.user})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 class MainView(LoginRequiredMixin, TemplateView):
     template_name = "issue/index.html"

@@ -13,7 +13,7 @@ STATUS_CHOICES = (
 RELEVANCE_CHOICES = (
     (1, _("Bassa")),
     (2, _("Media")),
-    (3, _("Alta")),	
+    (3, _("Alta")),
 )
 
 
@@ -24,8 +24,6 @@ RELEVANCE_CHOICES = (
 #
 # 	def __str__(self):
 # 	   return '{} {}'.format(self.first_name, self.last_name)
-
-
 class Issue(models.Model):
 	title = models.CharField(max_length=200)
 	date = models.DateTimeField(auto_now=True)
@@ -47,3 +45,16 @@ class Issue(models.Model):
 
 	def state_verbose(self):
 		return dict(STATUS_CHOICES)[self.state]
+
+class Comment(models.Model):
+    post = models.ForeignKey(Issue,on_delete=models.CASCADE,related_name='comments')
+    name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner_comments', null=True, blank=True)
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return 'Comment {} by {}'.format(self.body, self.name)
