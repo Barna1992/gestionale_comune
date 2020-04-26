@@ -11,6 +11,7 @@ STATUS_CHOICES = (
     (5, _("Da verificare"))
 )
 RELEVANCE_CHOICES = (
+    (0, "----"),
     (1, _("Bassa")),
     (2, _("Media")),
     (3, _("Alta")),
@@ -27,7 +28,8 @@ RELEVANCE_CHOICES = (
 class Issue(models.Model):
 	title = models.CharField(max_length=200)
 	date = models.DateTimeField(auto_now=True)
-	assignee = models.ManyToManyField(User)
+	assignee = models.ManyToManyField(User, related_name='assignee')
+	cc = models.ManyToManyField(User, related_name='cc', blank=True)
 	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner', null=True, blank=True)
 	description = models.TextField()
 	state = models.IntegerField(choices=STATUS_CHOICES, default=1)

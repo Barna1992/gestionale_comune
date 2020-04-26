@@ -22,6 +22,9 @@
 	<a href="?-date"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
   	<th>Termine esecuzione<a href="?expired_date"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
 	<a href="?-expired_date"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
+	 {% if not user.is_superuser %}
+	  <th>Solo in CC</th>
+	  {% endif%}
   </tr>
 </thead>
 <tbody>
@@ -41,11 +44,18 @@
 			<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.state_verbose }}</a></td>
 			<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.date|date:"d-m-Y" }}</a></td>
 			<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.expired_date|date:"d-m-Y" }}</a></td>
+	 {% if not user.is_superuser %}
+	 	<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">
+			{% if user in issue.cc.all %}
+			<i class="material-icons">check</i>
+			{% endif %}
+		</a></td>
+	{% endif %}
 	    </tr>
 	 {% endfor %}
 
 {% else %}
-	<tr><p>Non c'è alcuna problematica attiva attulamente.</p></tr>
+	<tr><p class='flow-text center' style='margin-top:40px'>Non c'è alcuna problematica attiva attulamente.</p></tr>
 {% endif %}
 <tbody>
 </table>

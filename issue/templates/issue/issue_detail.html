@@ -4,6 +4,11 @@
 <div class="row">
     {% block elimina_issue %}
     {% endblock %}
+    {% if cc_only %}
+    <div class="issue-detail-header">
+        <h4>QUESTA SEGNALAZIONE E' SOLO IN CC PER TE!</h4>
+    </div>
+    {% endif %}
     <div class="issue-detail-header">
         <h1>{{ issue.title }}</h1>
     </div>
@@ -26,19 +31,31 @@
             </div>
         </div>
         <div class="col s4 issue_block">
+            <h5 class="title">Assegnatario:</h5>
+            {% for assignee in issue.assignee.all %}
+            <p>{{ assignee.first_name }}</p>
+            {% endfor %}
+            {% if issue.cc.all %}
+            <h5 class="title">In CC:</h5>
+            {% for cc in issue.cc.all %}
+            <p>{{ cc.first_name }}{% if not forloop.last %}, &nbsp {% endif %}</p>
+            {% endfor %}
+            {% endif %}
             <h5 class="title">Creato il:</h5>
             <p>{{issue.date|date:"d-m-Y"}}</p>
             <h5 class="title">Priorità:</h5>
             <p>{{issue.priority_verbose}}</p>
+            {% if issue.expired_date %}
             <h5 class="title">Termine:</h5>
             <p>{{issue.expired_date|date:"d-m-Y"}}</p>
+            {% endif %}
             <h5 class="title">Stato:</h5>
             <p>{{ issue.state_verbose }}</p>
             {% if user.is_superuser %}
                     <a href="{% url 'edit-issue' issue.id %}" class="waves-effect waves-light btn">Modifica</a>
                     <a href="{% url 'delete-issue' issue.id %}" class="waves-effect waves-light btn">Elimina</a>
                     {% else %}
-                    {% if issue.state != 3 %}
+                    {% if issue.state != 3 and not cc_only %}
                     <a href="{% url 'edit-issue-state' issue.id %}" class="waves-effect waves-light btn">Modifica Stato</a>
                     {% endif %}
             {% endif %}
