@@ -11,6 +11,18 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from configparser import SafeConfigParser
+
+
+config = CONFIG = SafeConfigParser()
+config.add_section("database")
+config.set("database", "name", "gestionale")
+config.set("database", "user", "gpexe")
+config.set("database", "password", "")
+config.set("database", "host", "")
+config.set("database", "port", "")
+
+config.read(['config.ini'])
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,10 +87,15 @@ WSGI_APPLICATION = 'gestione_comune.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": config.get("database", "name"),
+        "USER": config.get("database", "user"),
+        "PASSWORD": config.get("database", "password") or None,
+        "HOST": config.get("database", "host") or None,
+        "PORT": config.get("database", "port") or None,
     }
 }
 
