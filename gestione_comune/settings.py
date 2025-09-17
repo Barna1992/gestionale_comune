@@ -10,11 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import os
-from configparser import SafeConfigParser
+from pathlib import Path
+from configparser import ConfigParser
 
 
-config = CONFIG = SafeConfigParser()
+config = CONFIG = ConfigParser()
 config.add_section("database")
 config.set("database", "name", "gestionale")
 config.set("database", "user", "gpexe")
@@ -24,8 +24,8 @@ config.set("database", "port", "")
 
 config.read(['config.ini'])
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -90,14 +90,22 @@ WSGI_APPLICATION = 'gestione_comune.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": config.get("database", "name"),
-        "USER": config.get("database", "user"),
-        "PASSWORD": config.get("database", "password") or None,
-        "HOST": config.get("database", "host") or None,
-        "PORT": config.get("database", "port") or None,
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# Uncomment below for PostgreSQL (requires proper setup)
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": config.get("database", "name"),
+#         "USER": config.get("database", "user"),
+#         "PASSWORD": config.get("database", "password") or None,
+#         "HOST": config.get("database", "host") or None,
+#         "PORT": config.get("database", "port") or None,
+#     }
+# }
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Password validation
@@ -139,3 +147,4 @@ DATE_INPUT_FORMATS = ['%d/%m/%Y']
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/issue/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
