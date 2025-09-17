@@ -37,7 +37,7 @@ class Issue(models.Model):
 	expired_date = models.DateField(auto_now=False, null=True, blank=True)
 
 	def __str__(self):
-		return '{}'.format(self.title)
+		return f'#{self.pk} - {self.title} ({self.get_state_display()})'
 
 	def get_absolute_url(self):
 		return reverse('issue-detail', kwargs={'pk': self.pk})
@@ -59,4 +59,5 @@ class Comment(models.Model):
         ordering = ['created_on']
 
     def __str__(self):
-        return 'Comment {} by {}'.format(self.body, self.name)
+        body_preview = self.body[:50] + '...' if len(self.body) > 50 else self.body
+        return f'Commento di {self.name} su #{self.post.pk}: {body_preview}'
