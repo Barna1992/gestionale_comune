@@ -1,0 +1,13 @@
+Gentile utente,
+
+{{ changed_by }} ha modificato lo stato della segnalazione #{{ issue.pk }} - {{ issue.title }}:
+
+Stato precedente: {{ old_state }}
+Nuovo stato: {{ new_state }}
+
+Puoi visualizzare la segnalazione al seguente link:
+{{ issue_url }}
+
+---
+Gestionale Comune di Domegge di Cadore
+Questa è una notifica automatica, non rispondere a questa email.

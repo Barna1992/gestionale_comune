@@ -1,18 +1,25 @@
 from django.contrib import admin
-from .models import Issue, Comment
+
+from .models import Attachment, Category, Comment, Issue
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'color', 'description']
+    search_fields = ['name']
 
 
 @admin.register(Issue)
 class IssueAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'title', 'state', 'priority', 'owner', 'date', 'expired_date']
-    list_filter = ['state', 'priority', 'date', 'assignee']
+    list_display = ['pk', 'title', 'state', 'priority', 'category', 'owner', 'created_at', 'expired_date']
+    list_filter = ['state', 'priority', 'category', 'created_at', 'assignee']
     search_fields = ['title', 'description', 'owner__username']
-    date_hierarchy = 'date'
-    ordering = ['-date']
+    date_hierarchy = 'created_at'
+    ordering = ['-created_at']
 
     fieldsets = (
         ('Informazioni Principali', {
-            'fields': ('title', 'description', 'owner')
+            'fields': ('title', 'description', 'owner', 'category')
         }),
         ('Assegnazione', {
             'fields': ('assignee', 'cc')
@@ -24,7 +31,19 @@ class IssueAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.select_related('owner').prefetch_related('assignee', 'cc')
+        return qs.select_related('owner', 'category').prefetch_related('assignee', 'cc')
+
+
+@admin.register(Attachment)
+class AttachmentAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'issue', 'filename', 'uploaded_by', 'uploaded_at']
+    list_filter = ['uploaded_at']
+    search_fields = ['issue__title', 'description']
+    raw_id_fields = ['issue']
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.select_related('issue', 'uploaded_by')
 
 
 @admin.register(Comment)

@@ -1,12 +1,15 @@
-{% include 'issue/base.html' with index=True %}
+{% extends 'issue/base.html' %}
 {% load static %}
 
+{% block title %}Benvenuto - Gestionale Comune{% endblock %}
+
 {% block content %}
-<h1 style="text-align:center">Benvenuto nel gesionale del comune di Domegge!</h1>
-<div class="row home-center">
-    <a href="{% url 'base' %}"><img src="{% static "issue/img/logo.png" %}" alt="Logo Comune"></a>
-</div>
-<div class="row home-center">
-    <a href="{% url 'base' %}"><p>Entra</p></a>
+<div class="container text-center py-5">
+    <img src="{% static 'issue/img/logo.png' %}" alt="Logo Comune" class="mb-4" style="max-height:180px;">
+    <h1 class="mb-3">Benvenuto nel Gestionale del Comune di Domegge!</h1>
+    <p class="lead text-muted mb-4">Sistema di gestione delle segnalazioni comunali</p>
+    <a href="{% url 'base' %}" class="btn btn-primary btn-lg">
+        <i class="bi bi-arrow-right-circle"></i> Entra
+    </a>
 </div>
 {% endblock %}

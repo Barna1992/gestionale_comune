@@ -1,67 +1,216 @@
 {% extends 'issue/base.html' %}
-{% load tz %}
+{% load issue_tag tz %}
+
+{% block title %}#{{ issue.pk }} {{ issue.title }} - Gestionale Comune{% endblock %}
+
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb" class="breadcrumb-wrapper">
+    <div class="container-fluid px-4">
+        <ol class="breadcrumb mb-0 py-2">
+            <li class="breadcrumb-item"><a href="{% url 'base' %}">Segnalazioni</a></li>
+            <li class="breadcrumb-item active">#{{ issue.pk }} {{ issue.title }}</li>
+        </ol>
+    </div>
+</nav>
+{% endblock %}
+
 {% block content %}
-<div class="row">
-    {% block elimina_issue %}
-    {% endblock %}
+<div class="container-fluid px-4">
     {% if cc_only %}
-    <div class="issue-detail-header">
-        <h4>QUESTA SEGNALAZIONE E' SOLO IN CC PER TE!</h4>
+    <div class="alert alert-warning cc-only-banner">
+        <i class="bi bi-info-circle"></i> Questa segnalazione è in sola copia conoscenza (CC) per te.
     </div>
     {% endif %}
-    <div class="issue-detail-header">
-        <h1>{{ issue.title }}</h1>
-    </div>
+
     <div class="row">
-        <div class="col s8">
-            <div class='col' style="margin-left: -20px;margin-right: 20px;background: #e3f2fd;border-radius: 15px;">
-              <h4 class="title {% if issue.state is 3%} issue-resolved     {% endif %}">Descrizione dell'incarico {% if issue.state is 3%}(RISOLTA){% endif %}</h4>
-              <p {% if issue.state is 3%} class="issue-resolved" {% endif %}>{{issue.description}}</p>
+        <!-- Main content -->
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <span class="badge {{ issue.state|state_badge_class }} me-2">{{ issue.state_verbose }}</span>
+                        {{ issue.title }}
+                    </h4>
+                    <span class="text-muted">#{{ issue.pk }}</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text" style="white-space: pre-wrap;">{{ issue.description }}</p>
+                </div>
             </div>
-            <div class='col' style='margin-left:-20px'>
-              {% for comment in issue.comments.all %}
-              <p class='comment '>
-                <strong><span>il {{ comment.created_on|date:'d/m/Y' }} alle ore {{ comment.created_on| localtime | time:'H:i' }}, {{ comment.name }}  ha scritto:</span ><br/>
-              {{ comment.body }}</p>
-              {% endfor %}
-              <form method="POST" class="post-form">{% csrf_token %}
-              {{ form.as_p }}
-              <button type="submit" class="save btn">Commenta</button>
-              </form>
+
+            <!-- Attachments -->
+            {% if issue.attachments.all %}
+            <div class="card mb-4 reveal">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-paperclip"></i> Allegati ({{ issue.attachments.count }})</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        {% for att in issue.attachments.all %}
+                        <div class="col-auto">
+                            <div class="attachment-card">
+                                {% if att.is_image %}
+                                <a href="{{ att.file.url }}" target="_blank">
+                                    <img src="{{ att.file.url }}" alt="{{ att.filename }}" class="attachment-thumb mb-1">
+                                </a>
+                                {% else %}
+                                <a href="{{ att.file.url }}" target="_blank" class="d-block p-3">
+                                    <i class="bi bi-file-earmark"></i>
+                                </a>
+                                {% endif %}
+                                <div class="small text-truncate mt-1" style="max-width:120px; color: var(--gray-500);">{{ att.filename }}</div>
+                                {% if user.is_superuser %}
+                                <form method="post" action="{% url 'delete-attachment' att.pk %}" class="mt-1">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" data-confirm="Eliminare questo allegato?">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Upload attachment -->
+            {% if user.is_superuser %}
+            <div class="card mb-4 reveal">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-upload"></i> Carica allegato</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" action="{% url 'issue-detail' issue.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="attachment">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-md-5">
+                                <label for="id_file" class="form-label">File</label>
+                                <input type="file" name="file" id="id_file" class="form-control" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="id_att_description" class="form-label">Descrizione (opzionale)</label>
+                                <input type="text" name="att_description" id="id_att_description" class="form-control" maxlength="255">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="bi bi-upload"></i> Carica
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Comments -->
+            <div class="card mb-4 reveal">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-chat-dots"></i> Commenti ({{ issue.comments.count }})</h5>
+                </div>
+                <div class="card-body">
+                    {% if issue.comments.all %}
+                    <div class="comment-timeline">
+                        {% for comment in issue.comments.all %}
+                        <div class="comment-item">
+                            <div class="comment-meta mb-2">
+                                <strong>{{ comment.name.get_full_name|default:comment.name.username }}</strong>
+                                &mdash; {{ comment.created_on|date:"d/m/Y" }} alle {{ comment.created_on|localtime|time:"H:i" }}
+                            </div>
+                            <p class="mb-0" style="white-space: pre-wrap;">{{ comment.body }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state py-3">
+                        <i class="bi bi-chat" style="font-size: 2rem;"></i>
+                        <p>Nessun commento ancora.</p>
+                    </div>
+                    {% endif %}
+
+                    <hr>
+                    <h6>Aggiungi commento</h6>
+                    <form method="post" action="{% url 'issue-detail' issue.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="comment">
+                        <div class="mb-3">
+                            <textarea name="body" class="form-control" rows="3" placeholder="Scrivi qui il tuo commento..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send"></i> Commenta
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="col s4 issue_block">
-            <h5 class="title">Assegnatario:</h5>
-            {% for assignee in issue.assignee.all %}
-            <p>{{ assignee.first_name }}</p>
-            {% endfor %}
-            {% if issue.cc.all %}
-            <h5 class="title">In CC:</h5>
-            {% for cc in issue.cc.all %}
-            <p>{{ cc.first_name }}{% if not forloop.last %}, &nbsp {% endif %}</p>
-            {% endfor %}
-            {% endif %}
-            <h5 class="title">Creato il:</h5>
-            <p>{{issue.date|date:"d-m-Y"}}</p>
-            <h5 class="title">Priorità:</h5>
-            <p>{{issue.priority_verbose}}</p>
-            {% if issue.expired_date %}
-            <h5 class="title">Termine:</h5>
-            <p>{{issue.expired_date|date:"d-m-Y"}}</p>
-            {% endif %}
-            <h5 class="title">Stato:</h5>
-            <p>{{ issue.state_verbose }}</p>
-            {% if user.is_superuser %}
-                    <a href="{% url 'edit-issue' issue.id %}" class="waves-effect waves-light btn">Modifica</a>
-                    <a href="{% url 'delete-issue' issue.id %}" class="waves-effect waves-light btn">Elimina</a>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="detail-sidebar mb-4">
+                <div class="sidebar-label"><i class="bi bi-flag"></i> Priorità</div>
+                <div class="sidebar-value"><span class="badge {{ issue.priority|priority_badge_class }}">{{ issue.priority_verbose }}</span></div>
+
+                <div class="sidebar-label"><i class="bi bi-circle-half"></i> Stato</div>
+                <div class="sidebar-value"><span class="badge {{ issue.state|state_badge_class }}">{{ issue.state_verbose }}</span></div>
+
+                {% if issue.category %}
+                <div class="sidebar-label"><i class="bi bi-tag"></i> Categoria</div>
+                <div class="sidebar-value">
+                    <span class="badge" style="background-color: {{ issue.category.color }}20; color: {{ issue.category.color }}; border: 1px solid {{ issue.category.color }}40;">{{ issue.category.name }}</span>
+                </div>
+                {% endif %}
+
+                <div class="sidebar-label"><i class="bi bi-people"></i> Assegnatari</div>
+                <div class="sidebar-value">
+                    {% for assignee in issue.assignee.all %}
+                    <span class="badge bg-secondary">{{ assignee.get_full_name|default:assignee.username }}</span>
+                    {% endfor %}
+                </div>
+
+                {% if issue.cc.all %}
+                <div class="sidebar-label"><i class="bi bi-envelope"></i> In CC</div>
+                <div class="sidebar-value">
+                    {% for cc in issue.cc.all %}
+                    <span class="badge bg-light text-dark border">{{ cc.get_full_name|default:cc.username }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="sidebar-label"><i class="bi bi-calendar3"></i> Creato il</div>
+                <div class="sidebar-value" style="color: var(--gray-700); font-size: 0.9rem;">{{ issue.created_at|date:"d/m/Y H:i" }}</div>
+
+                {% if issue.expired_date %}
+                <div class="sidebar-label"><i class="bi bi-calendar-event"></i> Scadenza</div>
+                <div class="sidebar-value" style="color: var(--gray-700); font-size: 0.9rem;">{{ issue.expired_date|date:"d/m/Y" }}</div>
+                {% endif %}
+
+                {% if issue.owner %}
+                <div class="sidebar-label"><i class="bi bi-person"></i> Creato da</div>
+                <div class="sidebar-value" style="color: var(--gray-700); font-size: 0.9rem;">{{ issue.owner.get_full_name|default:issue.owner.username }}</div>
+                {% endif %}
+
+                <hr style="border-color: var(--gray-200);">
+
+                <div class="d-grid gap-2">
+                    {% if user.is_superuser %}
+                    <a href="{% url 'edit-issue' issue.pk %}" class="btn btn-outline-primary">
+                        <i class="bi bi-pencil"></i> Modifica
+                    </a>
+                    <a href="{% url 'delete-issue' issue.pk %}" class="btn btn-outline-danger">
+                        <i class="bi bi-trash"></i> Elimina
+                    </a>
                     {% else %}
                     {% if issue.state != 3 and not cc_only %}
-                    <a href="{% url 'edit-issue-state' issue.id %}" class="waves-effect waves-light btn">Modifica Stato</a>
+                    <a href="{% url 'edit-issue-state' issue.pk %}" class="btn btn-outline-primary">
+                        <i class="bi bi-pencil"></i> Modifica Stato
+                    </a>
                     {% endif %}
-            {% endif %}
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
-
-
 </div>
 {% endblock %}

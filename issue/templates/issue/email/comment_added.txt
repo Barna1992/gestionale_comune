@@ -1,0 +1,12 @@
+Gentile utente,
+
+{{ commenter }} ha aggiunto un commento alla segnalazione #{{ issue.pk }} - {{ issue.title }}:
+
+"{{ comment.body }}"
+
+Puoi visualizzare la segnalazione al seguente link:
+{{ issue_url }}
+
+---
+Gestionale Comune di Domegge di Cadore
+Questa è una notifica automatica, non rispondere a questa email.

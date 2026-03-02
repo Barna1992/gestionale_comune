@@ -1,62 +1,150 @@
 {% extends 'issue/base.html' %}
-{% block script %}
-<style>
-.container {
-  width:95% !important;
-}
-</style>
-{% endblock %}
+{% load issue_tag %}
+
+{% block title %}Segnalazioni - Gestionale Comune{% endblock %}
 
 {% block content %}
- <table class="table table-hover" style='margin-top:40px; background-color: #E3F2FD;'>
-   <thead>
-  <tr>
-    <th>Pratica<a href="/issue/"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a></th>
-  {% if user.is_superuser %}<th>Assegnatario<a href="?assignee"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
-	<a href="?-assignee"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>{% endif %}
-    <th>Priorità<a href="?priority"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
-	<a href="?-priority"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
-	<th {% if not user.is_superuser and new_issue %}class="blink"{% endif %}>Stato<a href="?state"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
-	<a href="?-state"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
-	<th>Data inserimento<a href="?date"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
-	<a href="?-date"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
-  	<th>Termine esecuzione<a href="?expired_date"><i class='far fa-caret-square-down' style="margin-left:5px"></i></a>
-	<a href="?-expired_date"><i class='far fa-caret-square-up' style="margin-left:5px"></i></a></th>
-	 {% if not user.is_superuser %}
-	  <th>Solo in CC</th>
-	  {% endif%}
-  </tr>
-</thead>
-<tbody>
-{% if issues_list %}
-	 {% for issue in issues_list %}
-		<tr {% if issue.state is 3 %}class="issue-resolved"{% endif %}>
-			<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.title }}</a></td>
-      {% if user.is_superuser %}
-      <td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">
-        {% if all_user_number == issue.assignee.all.count %}
-        Tutti
-        {% else %}
-        {% for a in issue.assignee.all %}{{ a }}{% if not forloop.last %}, &nbsp {% endif %}{% endfor %}</a></td>
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="page-heading"><i class="bi bi-list-task"></i> Segnalazioni</h2>
+        {% if user.is_superuser %}
+        <a href="{% url 'create-issue' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Nuova Segnalazione
+        </a>
         {% endif %}
-      {% endif %}
-      <td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.priority_verbose }}</a></td>
-			<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.state_verbose }}</a></td>
-			<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.date|date:"d-m-Y" }}</a></td>
-			<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">{{ issue.expired_date|date:"d-m-Y" }}</a></td>
-	 {% if not user.is_superuser %}
-	 	<td {% if issue.state is 3 %}class="issue-resolved-td"{% endif %}><a href="/issue/{{ issue.id }}/">
-			{% if user in issue.cc.all %}
-			<i class="material-icons">check</i>
-			{% endif %}
-		</a></td>
-	{% endif %}
-	    </tr>
-	 {% endfor %}
+    </div>
 
-{% else %}
-	<tr><p class='flow-text center' style='margin-top:40px'>Non c'è alcuna problematica attiva attulamente.</p></tr>
-{% endif %}
-<tbody>
-</table>
+    {% if filter_form %}
+    <div class="card filter-bar mb-3">
+        <div class="card-body">
+            <form method="get" class="row g-2 align-items-end">
+                {{ filter_form.as_p }}
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-sm btn-primary">Filtra</button>
+                    <a href="{% url 'base' %}" class="btn btn-sm btn-outline-secondary">Reset</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-issues mb-0">
+                <thead>
+                    <tr>
+                        <th>
+                            Pratica
+                            <a href="?title" data-bs-toggle="tooltip" title="Ordina"><i class="bi bi-caret-down-fill"></i></a>
+                        </th>
+                        {% if user.is_superuser %}
+                        <th>
+                            Assegnatario
+                            <a href="?assignee"><i class="bi bi-caret-down-fill"></i></a>
+                            <a href="?-assignee"><i class="bi bi-caret-up-fill"></i></a>
+                        </th>
+                        {% endif %}
+                        <th>
+                            Priorità
+                            <a href="?priority"><i class="bi bi-caret-down-fill"></i></a>
+                            <a href="?-priority"><i class="bi bi-caret-up-fill"></i></a>
+                        </th>
+                        <th>
+                            Stato
+                            <a href="?state"><i class="bi bi-caret-down-fill"></i></a>
+                            <a href="?-state"><i class="bi bi-caret-up-fill"></i></a>
+                        </th>
+                        <th>Categoria</th>
+                        <th>
+                            Data
+                            <a href="?created_at"><i class="bi bi-caret-down-fill"></i></a>
+                            <a href="?-created_at"><i class="bi bi-caret-up-fill"></i></a>
+                        </th>
+                        <th>
+                            Scadenza
+                            <a href="?expired_date"><i class="bi bi-caret-down-fill"></i></a>
+                            <a href="?-expired_date"><i class="bi bi-caret-up-fill"></i></a>
+                        </th>
+                        {% if not user.is_superuser %}
+                        <th>Solo CC</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in issues_list %}
+                    <tr {% if issue.state == 3 %}class="issue-resolved"{% endif %}>
+                        <td>
+                            <a href="{% url 'issue-detail' issue.pk %}">{{ issue.title }}</a>
+                        </td>
+                        {% if user.is_superuser %}
+                        <td>
+                            {% if all_user_number == issue.assignee.all.count %}
+                                <span class="text-muted">Tutti</span>
+                            {% else %}
+                                {% for a in issue.assignee.all %}{{ a.get_full_name|default:a.username }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                        <td>
+                            <span class="badge {{ issue.priority|priority_badge_class }}">{{ issue.priority_verbose }}</span>
+                        </td>
+                        <td>
+                            <span class="badge {{ issue.state|state_badge_class }}">{{ issue.state_verbose }}</span>
+                        </td>
+                        <td>
+                            {% if issue.category %}
+                                <span class="badge" style="background-color: {{ issue.category.color }}20; color: {{ issue.category.color }}; border: 1px solid {{ issue.category.color }}40;">{{ issue.category.name }}</span>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ issue.created_at|date:"d/m/Y" }}</td>
+                        <td>
+                            {% if issue.expired_date %}
+                                {{ issue.expired_date|date:"d/m/Y" }}
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </td>
+                        {% if not user.is_superuser %}
+                        <td>
+                            {% if user in issue.cc.all %}
+                                <i class="bi bi-check-circle-fill text-warning"></i>
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8">
+                            <div class="empty-state">
+                                <i class="bi bi-inbox"></i>
+                                <p>Non ci sono segnalazioni al momento.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% if is_paginated %}
+    <nav class="mt-3" aria-label="Paginazione">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Precedente</a></li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Successiva</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
 {% endblock %}

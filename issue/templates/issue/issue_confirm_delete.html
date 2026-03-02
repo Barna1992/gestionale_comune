@@ -1,18 +1,42 @@
-{% extends 'issue/issue_detail.html' %}
-{% block elimina_issue %}
+{% extends 'issue/base.html' %}
 
-{% if user.is_superuser %}
-<form method="post">{% csrf_token %}
-    <p class="flow-text" style="margin-top:80px">Sei sicuro di voler eliminare la seguente problematica ?</p>
-    <button class="btn waves-effect waves-light" type="submit" name="action">Conferma
-    </button>
-    <a href="{% url 'issue-detail' object.id %}" class="waves-effect waves-light btn">Indietro</a>
-</form>
-{% endif %}
+{% block title %}Elimina Segnalazione #{{ object.pk }} - Gestionale Comune{% endblock %}
+
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb" class="breadcrumb-wrapper">
+    <div class="container-fluid px-4">
+        <ol class="breadcrumb mb-0 py-2">
+            <li class="breadcrumb-item"><a href="{% url 'base' %}">Segnalazioni</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'issue-detail' object.pk %}">#{{ object.pk }}</a></li>
+            <li class="breadcrumb-item active">Elimina</li>
+        </ol>
+    </div>
+</nav>
 {% endblock %}
 
-<script>
-    $(document).ready(function(){
-        $("html,body").scrollTop(55);
-    });
-</script>
+{% block content %}
+<div class="container" style="max-width: 600px;">
+    <div class="card delete-card">
+        <div class="card-header">
+            <h4 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Conferma Eliminazione</h4>
+        </div>
+        <div class="card-body">
+            <p class="mb-3" style="color: var(--gray-700);">Sei sicuro di voler eliminare la seguente segnalazione?</p>
+            <div class="alert">
+                <strong>#{{ object.pk }}</strong> - {{ object.title }}
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Conferma Eliminazione
+                    </button>
+                    <a href="{% url 'issue-detail' object.pk %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Annulla
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+Gentile utente,
+
+{{ created_by }} ha creato una nuova segnalazione a cui sei stato coinvolto:
+
+Segnalazione: #{{ issue.pk }} - {{ issue.title }}
+Priorità: {{ issue.priority_verbose }}
+Stato: {{ issue.state_verbose }}
+{% if issue.category %}Categoria: {{ issue.category.name }}
+{% endif %}{% if issue.expired_date %}Scadenza: {{ issue.expired_date|date:"d/m/Y" }}
+{% endif %}
+Descrizione:
+{{ issue.description }}
+
+Puoi visualizzare la segnalazione al seguente link:
+{{ issue_url }}
+
+---
+Gestionale Comune di Domegge di Cadore
+Questa è una notifica automatica, non rispondere a questa email.
