@@ -24,7 +24,7 @@ RUN chmod +x /app/entrypoint.sh
 
 # Create non-root user
 RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
-RUN mkdir -p /app/media /app/logs && chown -R appuser:appgroup /app/media /app/logs
+RUN mkdir -p /app/media /app/logs /app/staticfiles && chown -R appuser:appgroup /app/media /app/logs /app/staticfiles
 USER appuser
 
 EXPOSE 8000
