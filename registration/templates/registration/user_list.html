@@ -1,0 +1,86 @@
+{% extends 'issue/base.html' %}
+
+{% block title %}Gestione Utenti - Gestionale Comune{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="page-heading"><i class="bi bi-people"></i> Gestione Utenti</h2>
+        <a href="{% url 'accounts:user_create' %}" class="btn btn-primary">
+            <i class="bi bi-person-plus"></i> Nuovo Utente
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-issues mb-0">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Nome</th>
+                        <th>Cognome</th>
+                        <th>Email</th>
+                        <th>Stato</th>
+                        <th>Ruolo</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in users %}
+                    <tr>
+                        <td>{{ u.username }}</td>
+                        <td>{{ u.first_name|default:"-" }}</td>
+                        <td>{{ u.last_name|default:"-" }}</td>
+                        <td>{{ u.email|default:"-" }}</td>
+                        <td>
+                            {% if u.is_active %}
+                                <span class="badge bg-success">Attivo</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Disattivato</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if u.is_superuser %}
+                                <span class="badge bg-primary">Superuser</span>
+                            {% else %}
+                                <span class="badge bg-info text-dark">Utente</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                <a href="{% url 'accounts:user_edit' u.pk %}" class="btn btn-sm btn-outline-primary" title="Modifica">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                {% if u != request.user %}
+                                <form method="post" action="{% url 'accounts:user_toggle_active' u.pk %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    {% if u.is_active %}
+                                    <button type="submit" class="btn btn-sm btn-outline-warning" title="Disattiva" onclick="return confirm('Disattivare l\'utente {{ u.username }}?')">
+                                        <i class="bi bi-person-slash"></i>
+                                    </button>
+                                    {% else %}
+                                    <button type="submit" class="btn btn-sm btn-outline-success" title="Attiva">
+                                        <i class="bi bi-person-check"></i>
+                                    </button>
+                                    {% endif %}
+                                </form>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <i class="bi bi-people"></i>
+                                <p>Nessun utente trovato.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
