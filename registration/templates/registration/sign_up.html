@@ -9,7 +9,7 @@
             <div class="card-header">
                 <div class="auth-logo"><i class="bi bi-building"></i></div>
                 <h4 class="auth-title">Comune di Domegge di Cadore</h4>
-                <p class="auth-subtitle">Crea un nuovo account</p>
+                <p class="auth-subtitle">Crea un nuovo utente</p>
             </div>
             <div class="card-body">
                 {% if form.errors %}
@@ -42,7 +42,7 @@
                 </form>
             </div>
             <div class="card-footer">
-                <a href="{% url 'accounts:login' %}">Hai già un account? Accedi</a>
+                <a href="{% url 'accounts:user_list' %}"><i class="bi bi-arrow-left"></i> Torna alla lista utenti</a>
             </div>
         </div>
     </div>

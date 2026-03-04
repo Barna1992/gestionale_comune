@@ -6,7 +6,7 @@ from django.contrib.auth.views import (
 )
 from django.urls import path
 
-from .views import SignUpView
+from .views import SignUpView, UserCreateView, UserEditView, UserListView, UserToggleActiveView
 
 app_name = 'registration'
 
@@ -26,4 +26,8 @@ urlpatterns = [
         success_url='/accounts/reset/done/',
     ), name='password_reset_confirm'),
     path('reset/done/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('users/', UserListView.as_view(), name='user_list'),
+    path('users/create/', UserCreateView.as_view(), name='user_create'),
+    path('users/<int:pk>/edit/', UserEditView.as_view(), name='user_edit'),
+    path('users/<int:pk>/toggle-active/', UserToggleActiveView.as_view(), name='user_toggle_active'),
 ]

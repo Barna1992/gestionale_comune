@@ -5,6 +5,7 @@ from django import forms as django_forms
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
@@ -21,6 +22,40 @@ from django.views.generic.edit import FormView
 
 from .forms import AttachmentForm, CommentForm, IssueForm
 from .models import Attachment, Category, Comment, Issue
+
+
+class SuperuserRequiredMixin(LoginRequiredMixin):
+    """Returns 403 if the user is not a superuser."""
+
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        if request.user.is_authenticated and not request.user.is_superuser:
+            raise PermissionDenied
+        return response
+
+
+class AssigneeRequiredMixin(LoginRequiredMixin):
+    """Superusers pass; normal users must be an assignee and issue must be unresolved."""
+
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        if request.user.is_authenticated and not request.user.is_superuser:
+            obj = self.get_object()
+            if request.user not in obj.assignee.all() or obj.state == 3:
+                raise PermissionDenied
+        return response
+
+
+class IssueVisibilityMixin(LoginRequiredMixin):
+    """Superusers pass; normal users must be assignee or CC."""
+
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        if request.user.is_authenticated and not request.user.is_superuser:
+            obj = self.get_object()
+            if request.user not in obj.assignee.all() and request.user not in obj.cc.all():
+                raise PermissionDenied
+        return response
 
 
 class DashboardView(LoginRequiredMixin, TemplateView):
@@ -103,7 +138,7 @@ class IssueListView(LoginRequiredMixin, ListView):
         return context
 
 
-class IssueDetailView(LoginRequiredMixin, DetailView):
+class IssueDetailView(IssueVisibilityMixin, DetailView):
     template_name = 'issue/issue_detail.html'
     model = Issue
 
@@ -161,7 +196,7 @@ class IssueDetailView(LoginRequiredMixin, DetailView):
         return redirect('issue-detail', pk=self.object.pk)
 
 
-class IssueFormView(LoginRequiredMixin, FormView):
+class IssueFormView(SuperuserRequiredMixin, FormView):
     template_name = 'issue/issue_create.html'
     form_class = IssueForm
     success_url = reverse_lazy('base')
@@ -192,13 +227,13 @@ class IssueFormView(LoginRequiredMixin, FormView):
         return context
 
 
-class IssueEditFormView(LoginRequiredMixin, UpdateView):
+class IssueEditFormView(SuperuserRequiredMixin, UpdateView):
     model = Issue
     form_class = IssueForm
     template_name_suffix = '_update_form'
 
 
-class IssueEditStateFormView(LoginRequiredMixin, UpdateView):
+class IssueEditStateFormView(AssigneeRequiredMixin, UpdateView):
     model = Issue
     fields = ['state']
     template_name_suffix = '_update_form'
@@ -218,7 +253,7 @@ class IssueEditStateFormView(LoginRequiredMixin, UpdateView):
         return response
 
 
-class IssueDeleteFormView(LoginRequiredMixin, DeleteView):
+class IssueDeleteFormView(SuperuserRequiredMixin, DeleteView):
     model = Issue
     success_url = reverse_lazy('base')
 
